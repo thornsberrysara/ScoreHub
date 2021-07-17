@@ -25,6 +25,11 @@ get '/leaderboard' do
   user = client.user
   avatar = user.avatar_url
   user_login = user.login
+  followers = user.followers
+  public_repos = user.public_repos
 
-  erb :leaderboard, :locals => {:avatar_url => avatar, :login => user_login}
+  following = client.following
+  length = following.length()
+
+  erb :leaderboard, :locals => {:avatar_url => avatar, :login => user_login, :followers => followers, :following => following, :public_repos => public_repos}
 end
