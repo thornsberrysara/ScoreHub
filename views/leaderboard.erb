@@ -5,8 +5,19 @@
 	</head>
 	<body>
 	  <h1>ScoreHub</h1>
+    <div class="d-flex flex-justify-around">
     <div class="p-5">
-      <div class="blankslate blankslate-narrow">
+      <div class="blankslate blankslate-spacious" style="height: 80vh">
+			  <div class="blankslate blankslate-spacious" style="width: 760px"></div>
+        <h3>Leaderboard</h3>
+        <p class="text-gray alt-text-small">Here is the progress of your followers</p>
+			  <div id="user-info" class="following-user d-flex flex-justify-left flex-items-center pb-2"></div>
+        </div>
+		</div>
+    </div>
+
+    <div class="p-5">
+      <div class="blankslate blankslate-narrow" style="width: 400px; height: 80vh">
         <img class="avatar avatar-8 mr-2" width="128" height="128" src="<%= avatar_url %>" />
         <h3>Hey, <a href="https://github.com/<%= login %>" target="blank">@<%= login %></a>!</h3>
         <p class="text-gray alt-text-small">Here is all of your public profile data that wins you points!</p>
@@ -17,8 +28,22 @@
 				  <p>public repositories: <%= public_repos %></p> 
 			  </div>
 			<div>
-			</div>
-      </div>
 	  </div>
   </body>
+
+  <script>
+    userData = '<%=userData%>'
+    var data = JSON.parse(userData);
+    console.log(data);
+
+    for (let i = 0; i < data.length; i++) {
+      function insertAfter(currentDiv, newDiv) {
+        currentDiv.parentNode.insertBefore(newDiv, currentDiv.nextSibling);
+      }
+      var el = document.createElement("div")
+      el.innerHTML = (`<p id="follow" class="mr-2"><a href="https://github.com/${data[i].login}" target="blank"><strong>@${data[i].login}</strong></a></p>`);
+      var div = document.getElementById("user-info");
+      insertAfter(div, el)
+    }
+  </script>  
 </html>

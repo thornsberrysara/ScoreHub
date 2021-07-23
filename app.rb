@@ -29,7 +29,7 @@ get '/leaderboard' do
   public_repos = user.public_repos
 
   following = client.following
-  length = following.length()
+  userData = following.collect { |item| {:login => item.login} }.to_json
 
-  erb :leaderboard, :locals => {:avatar_url => avatar, :login => user_login, :followers => followers, :following => following, :public_repos => public_repos}
+  erb :leaderboard, :locals => {:avatar_url => avatar, :login => user_login, :followers => followers, :following => following, :public_repos => public_repos, :userData => userData}
 end
