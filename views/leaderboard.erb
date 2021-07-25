@@ -12,6 +12,7 @@
         <h3>Leaderboard</h3>
         <p class="text-gray alt-text-small">Here is the progress of your followers</p>
 			  <div id="user-info" class="following-user d-flex flex-justify-left flex-items-center pb-2"></div>
+        <div id="user-info2"></div>
         </div>
 		</div>
     </div>
@@ -41,7 +42,7 @@
         currentDiv.parentNode.insertBefore(newDiv, currentDiv.nextSibling);
       }
       var el = document.createElement("div")
-      el.innerHTML = (`<p id="follow" class="mr-2"><a href="https://github.com/${data[i].login}" target="blank"><strong>@${data[i].login}</strong></a></p>`);
+      el.innerHTML = (`<span class="d-flex"><img class="avatar avatar-small" width="28" height="28" src=${data[i].avatar_url}><p id="follow" class="mr-2 pl-3"><a href="https://github.com/${data[i].login}" target="blank"><strong>@${data[i].login}</strong></a></p></span>`);
       var div = document.getElementById("user-info");
       insertAfter(div, el)
     }
