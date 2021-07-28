@@ -26,10 +26,13 @@ get '/leaderboard' do
   avatar = user.avatar_url
   user_login = user.login
   followers = user.followers
-  public_repos = user.public_repos
+  repos_url = user.repos_url
+  events_url = user.events_url
+  followers_url = user.followers_url
+  following_url = user.following_url
 
   following = client.following
-  userData = following.collect { |item| {:login => item.login, :avatar_url => item.avatar_url} }.to_json
+  userData = following.collect { |item| {:login => item.login, :avatar_url => item.avatar_url, :repos_url => item.repos_url, :events_url => item.events_url, :followers_url => item.followers_url, :following_url => item.following_url} }.to_json
 
-  erb :leaderboard, :locals => {:avatar_url => avatar, :login => user_login, :followers => followers, :following => following, :public_repos => public_repos, :userData => userData}
+  erb :leaderboard, :locals => {:avatar_url => avatar, :login => user_login, :followers => followers, :following => following, :repos_url => repos_url, :events_url => events_url, :followers_url => followers_url, :following_url => following_url, :userData => userData}
 end

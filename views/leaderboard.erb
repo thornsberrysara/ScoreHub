@@ -1,48 +1,85 @@
 <html>
   <head>
     <base href="/"> 
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/primer@10.5.0/build/build.css">
 	</head>
 	<body>
-	  <h1>ScoreHub</h1>
-    <div class="d-flex flex-justify-around">
-    <div class="p-5">
-      <div class="blankslate blankslate-spacious" style="height: 80vh">
-			  <div class="blankslate blankslate-spacious" style="width: 760px"></div>
+    <nav class="m-6 d-flex">
+      <h1>ScoreHub</h1>
+      <ul id="ul"></ul>
+    </nav>
+    <div class="mx-6">
+      <div class="blankslate blankslate-spacious" style="min-height: 80vh; max-width: 100%">
+			  <div class="blankslate blankslate-spacious" style="min-width: 760px"></div>
         <h3>Leaderboard</h3>
         <p class="text-gray alt-text-small">Here is the progress of your followers</p>
 			  <div id="user-info" class="following-user d-flex flex-justify-left flex-items-center pb-2"></div>
-        <div id="user-info2"></div>
-        </div>
+      </div>
 		</div>
     </div>
 
     <div class="p-5">
-      <div class="blankslate blankslate-narrow" style="width: 400px; height: 80vh">
+      <div class="blankslate blankslate-narrow Layout-sidebar" style="min-height: 80vh">
         <img class="avatar avatar-8 mr-2" width="128" height="128" src="<%= avatar_url %>" />
         <h3>Hey, <a href="https://github.com/<%= login %>" target="blank">@<%= login %></a>!</h3>
         <p class="text-gray alt-text-small">Here is all of your public profile data that wins you points!</p>
-        <div>
-				  <p><strong>Points: 0</strong></p>
- 				  <p>followers: <%= followers %></p>
-				  <p>following: <%= following.length() %></p> 
-				  <p>public repositories: <%= public_repos %></p> 
+        <div id="points">
 			  </div>
 			<div>
 	  </div>
   </body>
 
   <script>
+    followers = '<%= followers %>'
+    following = '<%= following.length() %>'
+    login = '<%= login %>'
+    avatar_url = '<%= avatar_url %>'
+    events_url = '<%= events_url %>'
+    repos_url = '<%= repos_url %>'
+    followers_url = '<%= followers_url %>'
+    following_url = '<%= following_url %>'
+
+    const eventPoints = events_url.length * 6;
+    const repoPoints = repos_url.length * 10;
+    const followerPoints = followers_url.length * 2;
+    const followingPoints = following_url.length * 2;
+    const authUserPoints = eventPoints + repoPoints + followerPoints + followingPoints;
+
     userData = '<%=userData%>'
     var data = JSON.parse(userData);
+    authUser = {login: login,
+                avatar_url: avatar_url,
+                events_url: events_url,
+                repos_url: repos_url,
+                followers_url: followers_url,
+                following_url: following_url};
+    data.push(authUser)
     console.log(data);
 
-    for (let i = 0; i < data.length; i++) {
-      function insertAfter(currentDiv, newDiv) {
+
+    function insertAfter(currentDiv, newDiv) {
         currentDiv.parentNode.insertBefore(newDiv, currentDiv.nextSibling);
       }
+
+      var el = document.createElement("p")
+      el.innerHTML = (`<strong>Points: ${authUserPoints}</strong>`);
+      var div = document.getElementById("points");
+      insertAfter(div, el)
+
+      var li = document.createElement("p")
+      li.innerHTML = (`<p class="nav-login pr-5">@${login}</p>`);
+      var ul = document.getElementById("ul");
+      insertAfter(ul, li)
+
+    for (let i = 0; i < data.length; i++) {
       var el = document.createElement("div")
-      el.innerHTML = (`<span class="d-flex"><img class="avatar avatar-small" width="28" height="28" src=${data[i].avatar_url}><p id="follow" class="mr-2 pl-3"><a href="https://github.com/${data[i].login}" target="blank"><strong>@${data[i].login}</strong></a></p></span>`);
+      const eventPoints = (data[i].events_url.length * 6);
+      const repoPoints = (data[i].repos_url.length * 10);
+      const followerPoints = (data[i].followers_url.length * 2);
+      const followingPoints = (data[i].following_url.length * 2);
+      const userPoints = eventPoints + repoPoints + followerPoints + followingPoints;
+      el.innerHTML = (`<span class="d-flex"><img class="avatar avatar-small" width="28" height="28" src=${data[i].avatar_url}><p id="follow" class="mr-2 pl-3"><a href="https://github.com/${data[i].login}" target="blank"><strong>@${data[i].login}</strong></a></p><p>Points: ${userPoints}</p></span>`);
       var div = document.getElementById("user-info");
       insertAfter(div, el)
     }
