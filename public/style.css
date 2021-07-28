@@ -1,0 +1,16 @@
+* {
+    list-style: none;
+}
+
+.nav-login {
+    position: absolute;
+    right: 0;
+    padding-right: 5px;
+}
+
+#my-avatar {
+    float: right;
+    right: 0;
+    position: absolute;
+    padding-right: 5px;
+}
